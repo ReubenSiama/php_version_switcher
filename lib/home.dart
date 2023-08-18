@@ -114,18 +114,61 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Are you sure you want to uninstall?'),
-            actions: [
-              MaterialButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('No'),
+            backgroundColor: const Color.fromARGB(255, 93, 66, 53),
+            actionsAlignment: MainAxisAlignment.spaceAround,
+            title: Text(
+              'Are you sure you want to uninstall\nPHP $version?',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0XFFD5CEA3),
+                fontSize: 15,
               ),
-              MaterialButton(
+            ),
+            actions: [
+              TextButton(
+                style: ButtonStyle(
+                  padding:
+                      MaterialStateProperty.all(const EdgeInsets.all(15.0)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(
+                        color: Color(0XFFD5CEA3),
+                      ),
+                    ),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'No',
+                  style: TextStyle(
+                    color: Color(0XFFD5CEA3),
+                  ),
+                ),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                  padding:
+                      MaterialStateProperty.all(const EdgeInsets.all(15.0)),
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0XFFD5CEA3)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(
+                        color: Color(0XFFD5CEA3),
+                      ),
+                    ),
+                  ),
+                ),
                 onPressed: () async {
                   await uninstall(version)
                       .then((value) => Navigator.pop(context));
                 },
-                child: const Text('Yes'),
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Color.fromARGB(255, 93, 66, 53)),
+                ),
               )
             ],
           );
