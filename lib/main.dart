@@ -7,14 +7,15 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
+    titleBarStyle: TitleBarStyle.hidden,
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     windowButtonVisibility: false,
   );
+  windowManager.setResizable(false);
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.setResizable(false);
     await windowManager.show();
     await windowManager.focus();
   });

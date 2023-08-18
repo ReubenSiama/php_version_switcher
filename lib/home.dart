@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
 
   List<FileSystemEntity> installedPhp = [];
   List<String> availableInSystem = [];
+  Color closeButtonColor = const Color.fromARGB(255, 209, 158, 5);
 
   String currentVersion = '';
 
@@ -145,129 +146,174 @@ class _HomeState extends State<Home> {
       progressIndicator: const LinearProgressIndicator(
         color: Color(0XFF704F4F),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Select the version you want to use',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: Color(0XFFE5E5CB),
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+            decoration: const BoxDecoration(
+              color: Color(0XFF3C2A21),
             ),
-            const SizedBox(
-              height: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MouseRegion(
+                  onHover: (event) => setState(() {
+                    closeButtonColor = const Color.fromARGB(255, 239, 181, 6);
+                  }),
+                  onExit: (event) => setState(() {
+                    closeButtonColor = const Color.fromARGB(255, 209, 158, 5);
+                  }),
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () => exit(0),
+                    child: Icon(
+                      Icons.power_settings_new_outlined,
+                      color: closeButtonColor,
+                      size: 35,
+                    ),
+                  ),
+                ),
+                const Text(
+                  "SWITCHER",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(4.0, 4.0),
+                        blurRadius: 3.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                      Shadow(
+                        offset: Offset(4.0, 4.0),
+                        blurRadius: 8.0,
+                        color: Color.fromARGB(124, 32, 32, 34),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Wrap(
-              runSpacing: 10,
-              spacing: 10,
-              alignment: WrapAlignment.center,
-              children: List.generate(
-                availableInSystem.length,
-                (index) {
-                  return Container(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      border: Border.all(
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            'Select the version you want to use',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Color(0XFFE5E5CB),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Wrap(
+            runSpacing: 10,
+            spacing: 10,
+            alignment: WrapAlignment.center,
+            children: List.generate(
+              availableInSystem.length,
+              (index) {
+                return Container(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: currentVersion.substring(4) ==
+                                availableInSystem[index]
+                            ? const Color(0XFF3C2A21)
+                            : const Color(0XFFD5CEA3)),
+                    borderRadius: BorderRadius.circular(10),
+                    color:
+                        currentVersion.substring(4) == availableInSystem[index]
+                            ? const Color(0XFF3C2A21)
+                            : null,
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "PHP ${availableInSystem[index]}",
+                        style: TextStyle(
                           color: currentVersion.substring(4) ==
                                   availableInSystem[index]
-                              ? const Color(0XFF3C2A21)
-                              : const Color(0XFFD5CEA3)),
-                      borderRadius: BorderRadius.circular(10),
-                      color: currentVersion.substring(4) ==
-                              availableInSystem[index]
-                          ? const Color(0XFF3C2A21)
-                          : null,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "PHP ${availableInSystem[index]}",
-                          style: TextStyle(
-                            color: currentVersion.substring(4) ==
-                                    availableInSystem[index]
-                                ? const Color.fromARGB(255, 93, 66, 53)
-                                : const Color(0XFFE5E5CB),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ActionButton(
-                              onTap: currentVersion.substring(4) ==
-                                      availableInSystem[index]
-                                  ? null
-                                  : () async {
-                                      deleteAlert(
-                                          context, availableInSystem[index]);
-                                    },
-                              icon: Icons.delete,
-                            ),
-                            ActionButton(
-                              onTap: currentVersion.substring(4) ==
-                                      availableInSystem[index]
-                                  ? null
-                                  : () =>
-                                      switchVersion(availableInSystem[index]),
-                              icon: Icons.change_circle,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'Install Other Version',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: Color(0XFFE5E5CB),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Wrap(
-              runSpacing: 10,
-              spacing: 10,
-              alignment: WrapAlignment.center,
-              children: List.generate(
-                installable.length,
-                (index) {
-                  return MaterialButton(
-                    disabledColor: const Color.fromARGB(255, 34, 24, 19),
-                    padding: const EdgeInsets.all(20),
-                    color: const Color(0XFF3C2A21),
-                    textColor: Colors.white,
-                    onPressed: !availableInSystem.contains(installable[index])
-                        ? () => installNew(installable[index])
-                        : null,
-                    child: Text(
-                      "PHP ${installable[index]}",
-                      style: TextStyle(
-                          color: availableInSystem.contains(installable[index])
                               ? const Color.fromARGB(255, 93, 66, 53)
-                              : const Color(0XFFE5E5CB)),
-                    ),
-                  );
-                },
-              ),
+                              : const Color(0XFFE5E5CB),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ActionButton(
+                            onTap: currentVersion.substring(4) ==
+                                    availableInSystem[index]
+                                ? null
+                                : () async {
+                                    deleteAlert(
+                                        context, availableInSystem[index]);
+                                  },
+                            icon: Icons.delete,
+                          ),
+                          ActionButton(
+                            onTap: currentVersion.substring(4) ==
+                                    availableInSystem[index]
+                                ? null
+                                : () => switchVersion(availableInSystem[index]),
+                            icon: Icons.change_circle,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'Install Other Version',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Color(0XFFE5E5CB),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Wrap(
+            runSpacing: 10,
+            spacing: 10,
+            alignment: WrapAlignment.center,
+            children: List.generate(
+              installable.length,
+              (index) {
+                return MaterialButton(
+                  disabledColor: const Color.fromARGB(255, 34, 24, 19),
+                  padding: const EdgeInsets.all(20),
+                  color: const Color(0XFF3C2A21),
+                  textColor: Colors.white,
+                  onPressed: !availableInSystem.contains(installable[index])
+                      ? () => installNew(installable[index])
+                      : null,
+                  child: Text(
+                    "PHP ${installable[index]}",
+                    style: TextStyle(
+                        color: availableInSystem.contains(installable[index])
+                            ? const Color.fromARGB(255, 93, 66, 53)
+                            : const Color(0XFFE5E5CB)),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
