@@ -1,6 +1,6 @@
 # switcher
 
-A new Flutter project.
+A Flutter project for Ubuntu to switch between PHP versions.
 
 ## Getting Started
 
