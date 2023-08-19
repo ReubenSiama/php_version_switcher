@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
             (value) => ScaffoldMessenger.of(context)
                 .showSnackBar(mySnackbar('PHP version switched successfully')),
           );
-    } on Exception catch (e) {
+    } on Exception {
       ScaffoldMessenger.of(context)
           .showSnackBar(mySnackbar('Something went wrong!'));
     }
@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
           .then((value) => getListOfPhp())
           .then((value) => ScaffoldMessenger.of(context)
               .showSnackBar(mySnackbar("PHP$version installed successfully")));
-    } on Exception catch (e) {
+    } on Exception {
       ScaffoldMessenger.of(context)
           .showSnackBar(mySnackbar('Something went wrong!'));
     } finally {
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
           )
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(
               mySnackbar("PHP$version uninstalled successfully")));
-    } on Exception catch (e) {
+    } on Exception {
       ScaffoldMessenger.of(context)
           .showSnackBar(mySnackbar('Something went wrong!'));
     } finally {
